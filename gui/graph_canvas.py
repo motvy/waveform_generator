@@ -19,6 +19,9 @@ class GraphCanvas():
         self.__main_frame.setFixedHeight(520)
 
         return self.__main_frame
+    
+    def setEnabled(self, a0):
+        self.__main_frame.setEnabled(a0)
 
     def initUI(self):
         self.__main_layout = QHBoxLayout()

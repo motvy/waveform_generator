@@ -29,6 +29,17 @@ class MainWindow(QWidget):
         QLineEdit {
             font-size: 12pt;
         }
+        QTableWidget {
+            border: 0px;
+        }
+        QHeaderView::section {
+            background-color: transparent;
+            font-size: 12pt;
+        }
+        QHeaderView {
+            background-color: transparent;
+        }
+
         """
         self.setStyleSheet(stylesheet)
 
@@ -53,6 +64,7 @@ class MainWindow(QWidget):
         self.start_btn.setIcon(QIcon(config.start_icon_path))
         self.start_btn.setIconSize(QSize(40, 40))
         self.start_btn.setStyleSheet('background: rgb(240, 240, 240); border: 0px;')
+        self.start_btn.clicked.connect(self.start_generate)
 
         self.stop_btn = QPushButton()
         # stop_icon = qta.icon('ei.stop', color="red")
@@ -80,4 +92,34 @@ class MainWindow(QWidget):
         self.setLayout(main_layout)
 
     def initData(self):
-        pass
+        self.timer_count = 0
+        self.timer_flag = False
+        timer = QTimer(self)
+        timer.timeout.connect(self.show_time)
+        timer.start(1000)
+
+    def start_generate(self):
+        self.start_timer()
+        self.stop_btn.clicked.connect(self.stop_generate)
+        self.start_btn.clicked.disconnect()
+        self.control_panel.setEnabled(False)
+
+    def stop_generate(self):
+        self.stop_timer()
+        self.start_btn.clicked.connect(self.start_generate)
+        self.stop_btn.clicked.disconnect()
+        self.control_panel.setEnabled(True)
+
+    def show_time(self):
+        if self.timer_flag:
+            self.timer_count+= 1
+ 
+        self.timer_lb.setText(str(datetime.timedelta(seconds=self.timer_count)))
+
+    def start_timer(self):
+        self.timer_flag = True
+ 
+    def stop_timer(self):
+        self.timer_flag = False
+        self.timer_count = 0
+        self.timer_lb.setText(str(datetime.timedelta(seconds=self.timer_count)))
