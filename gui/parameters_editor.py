@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QWidget, QMessageBox, QDialog, QSlider, QLineEdit, QRadioButton
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QDialog, QSlider, QLineEdit, QRadioButton
 
 import config
 
@@ -10,8 +10,7 @@ class Editor(QDialog):
         super().__init__()
 
         self.setWindowTitle(editot_title)
-        # self.setFixedSize(QSize(1440, 810))
-        self.setFixedSize(QSize(400, 250))
+        self.setFixedSize(QSize(int(0.4*control_panel.widget.width), int(0.3*control_panel.widget.height)))
 
         self.control_panel = control_panel
         self.indx = indx
@@ -36,7 +35,6 @@ class Editor(QDialog):
             font-size: 12pt;
         }
         QPushButton:hover {
-        /*    border: 2px solid black;   Change border color to red when hovered */
             background-color: #F0F0F0;
         }
         QPushButton:pressed {
@@ -67,10 +65,10 @@ class Editor(QDialog):
         parameters_frame.setFrameShape(QFrame.Panel)
 
         cancel_btn = QPushButton("Отмена")
-        cancel_btn.setFixedHeight(30)
+        cancel_btn.setFixedHeight(int(0.035*self.control_panel.widget.height))
         cancel_btn.clicked.connect(self.stop)
         apply_btn = QPushButton("Применить")
-        apply_btn.setFixedHeight(30)
+        apply_btn.setFixedHeight(int(0.035*self.control_panel.widget.height))
         apply_btn.clicked.connect(self.apply)
 
         button_layout = QHBoxLayout()
@@ -93,7 +91,7 @@ class Editor(QDialog):
 
         self.amplitude_input = QLineEdit()
         self.amplitude_input.setReadOnly(True)
-        self.amplitude_input.setFixedSize(70, 30)
+        self.amplitude_input.setFixedSize(int(0.08*self.control_panel.widget.width), int(0.04*self.control_panel.widget.height))
         self.amplitude_input.setText(f"{self.amplitude_slider.value() / 10.0} В")
         self.amplitude_input.setAlignment(Qt.AlignCenter) 
 
@@ -134,7 +132,7 @@ class Editor(QDialog):
 
         self.frequency_input = QLineEdit()
         self.frequency_input.setReadOnly(True)
-        self.frequency_input.setFixedSize(70, 30)
+        self.frequency_input.setFixedSize(int(0.08*self.control_panel.widget.width), int(0.04*self.control_panel.widget.height))
         self.frequency_input.setText(f"{config.frequency_dict[self.frequency_slider.value()]} Гц")
         self.frequency_input.setAlignment(Qt.AlignCenter) 
 
@@ -224,7 +222,6 @@ class Editor(QDialog):
         amplitude = single_values['amplitude'] / 10.0
         self.amplitude_slider.setValue(single_values['amplitude'])
         self.amplitude_input.setText(f"{amplitude} В")
-
 
     def run(self):
         self.exec_()

@@ -1,10 +1,8 @@
-
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, QTimer
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QWidget, QMessageBox
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QWidget
 
 import datetime
-import qtawesome as qta
 
 from gui.control_panel import ControlPanel
 from gui.graph_canvas import GraphCanvas
@@ -14,8 +12,6 @@ import config
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-
-        # self.db = SettingsDb()
 
         stylesheet = """
         QLabel {
@@ -31,21 +27,26 @@ class MainWindow(QWidget):
         }
         QTableWidget {
             border: 0px;
+            background-color: #F0F0F0;
         }
         QHeaderView::section {
             background-color: transparent;
             font-size: 12pt;
+            border: 0px;
         }
         QHeaderView {
             background-color: transparent;
         }
 
         """
+        self.width = int(0.67*config.display[0])
+        self.height = int(0.83*config.display[1])
+
         self.setStyleSheet(stylesheet)
 
         self.setWindowTitle("Функциональный генератор сигналов")
-        # self.setFixedSize(QSize(1440, 810))
-        self.setFixedSize(QSize(1000, 800))
+
+        self.setFixedSize(QSize(self.width, self.height))
 
         # self.setWindowIcon(QIcon(config.app_icon_path))
 
@@ -54,29 +55,23 @@ class MainWindow(QWidget):
 
     def initUI(self):
         self.control_panel = ControlPanel(self)
-        self.graph_canvas = GraphCanvas()
+        self.graph_canvas = GraphCanvas(self)
 
-        # self.start_btn = QLabel()
-        # start_icon = qta.icon('ei.play', color="green")
-        # self.start_btn.setPixmap(start_icon.pixmap(QSize(40,40)))
         self.start_btn = QPushButton()
-        self.start_btn.setFixedSize(40, 40)
+        self.start_btn.setFixedSize(int(self.width*0.04), int(self.width*0.04))
         self.start_btn.setIcon(QIcon(config.start_icon_path))
-        self.start_btn.setIconSize(QSize(40, 40))
+        self.start_btn.setIconSize(QSize(int(self.width*0.04), int(self.width*0.04)))
         self.start_btn.setStyleSheet('background: rgb(240, 240, 240); border: 0px;')
         self.start_btn.clicked.connect(self.start_generate)
 
         self.stop_btn = QPushButton()
-        # stop_icon = qta.icon('ei.stop', color="red")
-        # self.stop_btn.setPixmap(stop_icon.pixmap(QSize(40,40)))
         self.stop_btn = QPushButton()
-        self.stop_btn.setFixedSize(50, 40)
+        self.stop_btn.setFixedSize(int(self.width*0.04), int(self.width*0.04))
         self.stop_btn.setIcon(QIcon(config.stop_icon_path))
-        self.stop_btn.setIconSize(QSize(75, 75))
+        self.stop_btn.setIconSize(QSize(int(self.width*0.075), int(self.width*0.075)))
         self.stop_btn.setStyleSheet('background: rgb(240, 240, 240); border: 0px;')
 
         self.timer_lb = QLabel(str(datetime.timedelta(seconds=0)))
-        # self.timer_lb.setStyleSheet('font-size: 12pt;')
         
         button_layout = QHBoxLayout()
         button_layout.addWidget(self.start_btn)

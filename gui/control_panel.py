@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QFrame, QRadioButton, QTableWidget, QTableWidgetItem, QPushButton
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QFrame, QRadioButton, QTableWidget, QPushButton
 from PyQt5.QtGui import QFont, QColor, QIcon
-from PyQt5.QtCore import Qt, pyqtSignal, QSize
+from PyQt5.QtCore import Qt, QSize
 from PyQt5 import sip, QtWidgets
 
 from gui import parameters_editor
@@ -110,7 +110,7 @@ class ControlPanel():
             if len(table_values) < 4:
                 add_btn = QPushButton()
                 add_btn.setIcon(QIcon(config.add_icon_path))
-                add_btn.setIconSize(QSize(40, 40))
+                add_btn.setIconSize(QSize(int(self.widget.width*0.04), int(self.widget.width*0.04)))
                 add_btn.setStyleSheet('background: rgb(240, 240, 240); border: 0px;')
                 add_btn.clicked.connect(self.add_row_value)
                 self.table_valaues.setCellWidget(int(indx) - 1, 3, add_btn)
@@ -118,12 +118,11 @@ class ControlPanel():
             if len(table_values) > 1:
                 datete_btn = QPushButton()
                 datete_btn.setIcon(QIcon(config.delete_icon_path))
-                datete_btn.setIconSize(QSize(40, 40))
+                datete_btn.setIconSize(QSize(int(self.widget.width*0.04), int(self.widget.width*0.04)))
                 datete_btn.setStyleSheet('background: rgb(240, 240, 240); border: 0px;')
                 datete_btn.clicked.connect(self.del_row_value)
                 self.table_valaues.setCellWidget(int(indx) - 1, 3 if len(table_values) >= config.max_free_form_graphs else 4, datete_btn)
 
-        self.table_valaues.setMaximumHeight(self.table_valaues.rowCount() * 30 + 30)
     
     def add_row_value(self):
         btn = self.widget.sender()
@@ -169,7 +168,6 @@ class ControlPanel():
         
         return indx
 
-
     def change_values(self):
         editot_title = "Параметры сигнала"
         editor = parameters_editor.Editor(self, editot_title)
@@ -197,6 +195,7 @@ class ControlPanel():
         rbtn2.setChecked(True)
 
         v_layout = QVBoxLayout()
+        v_layout.addStretch()
         v_layout.addWidget(waveworm_lb)
         v_layout.addWidget(rbtn1)
         v_layout.addWidget(rbtn2)
@@ -213,7 +212,7 @@ class ControlPanel():
         waveworm_frame = QFrame()
         waveworm_frame.setLayout(waveform_layout)
         waveworm_frame.setFrameShape(QFrame.Panel)
-        waveworm_frame.setFixedSize(486, 200)
+        waveworm_frame.setMaximumHeight(int(0.2*self.widget.width))
 
         return waveworm_frame
 
@@ -221,7 +220,7 @@ class ControlPanel():
         values_frame = QFrame()
         values_frame.setLayout(self.get_single_values_layout())
         values_frame.setFrameShape(QFrame.Panel)
-        values_frame.setFixedSize(486, 200)
+        values_frame.setMaximumHeight(int(0.2*self.widget.width))
 
         return values_frame
 
@@ -233,7 +232,7 @@ class ControlPanel():
         amplitude_lb.setFont(afont)
         self.amplitude_input = utils.MyLineEdit()
         self.amplitude_input.setReadOnly(True)
-        self.amplitude_input.setFixedSize(250, 30)
+        self.amplitude_input.setFixedSize(int(0.25*self.widget.width), int(0.04*self.widget.height))
         self.amplitude_input.setAlignment(Qt.AlignRight) 
         self.amplitude_input.clicked.connect(self.change_values)
 
@@ -241,7 +240,7 @@ class ControlPanel():
         frequency_lb.setFont(afont)
         self.frequency_input = utils.MyLineEdit()
         self.frequency_input.setReadOnly(True)
-        self.frequency_input.setFixedSize(250, 30)
+        self.frequency_input.setFixedSize(int(0.25*self.widget.width), int(0.04*self.widget.height))
         self.frequency_input.setAlignment(Qt.AlignRight)
         self.frequency_input.clicked.connect(self.change_values)
 
@@ -273,13 +272,12 @@ class ControlPanel():
         self.table_valaues.verticalHeader().setVisible(False)
         hheader = self.table_valaues.horizontalHeader()
         hheader.setFont(afont)
-        hheader.setDefaultSectionSize(92)
         hheader.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         hheader.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeToContents)
         hheader.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeToContents)
         hheader.setFocusPolicy(Qt.NoFocus)
-        # hheader.setVisible(False)
-        # hheader.focusWidget()
+
+        self.table_valaues.setFixedWidth(int(0.45*self.widget.width))
 
         item3 = self.table_valaues.horizontalHeaderItem(2)
         item3.setBackground(QColor(255, 0, 255))

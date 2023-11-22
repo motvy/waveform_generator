@@ -1,9 +1,11 @@
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QFrame, QWidget, QMessageBox
+from PyQt5.QtWidgets import QHBoxLayout, QFrame
 
 import pyqtgraph as pg
 
+
 class GraphCanvas():
-    def __init__(self):
+    def __init__(self, widget):
+        self.widget = widget
         self.initUI()
         self.initData()
 
@@ -16,7 +18,7 @@ class GraphCanvas():
         self.__main_frame = QFrame()
         self.__main_frame.setLayout(self.__main_layout)
         self.__main_frame.setFrameShape(QFrame.Panel)
-        self.__main_frame.setFixedHeight(520)
+        # self.__main_frame.setFixedHeight(int(0.68*self.widget.height))
 
         return self.__main_frame
     

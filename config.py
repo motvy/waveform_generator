@@ -1,10 +1,14 @@
+import pathlib
+import os
 
-start_icon_path = r"D:\Python\waveform_generator\icons\start.svg"
-stop_icon_path = r"D:\Python\waveform_generator\icons\stop.svg"
-add_icon_path = r"D:\Downloads\add-svgrepo-com (5).svg"
-delete_icon_path = r"D:\Downloads\minus-svgrepo-com (1).svg"
+root_path = pathlib.Path(__file__).parent
 
-parameters_path = r"D:\Python\waveform_generator\parameters.json"
+start_icon_path = os.path.join(root_path, r"icons\start.svg")
+stop_icon_path = os.path.join(root_path, r"icons\stop.svg")
+add_icon_path = os.path.join(root_path, r"icons\add.svg")
+delete_icon_path = os.path.join(root_path, r"icons\delete.svg")
+
+parameters_path = os.path.join(root_path, "parameters.json")
 
 frequency_dict = {
     0: 10,
@@ -31,3 +35,5 @@ default = {
 }
 
 max_free_form_graphs = 4
+
+display = (1600, 1000)

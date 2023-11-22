@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLineEdit, QAbstractSlider, QLabel
+from PyQt5.QtWidgets import QLineEdit, QLabel
 from PyQt5.QtCore import Qt, pyqtSignal
 
 import os
@@ -13,6 +13,7 @@ class MyLineEdit(QLineEdit):
     def mouseReleaseEvent(self, QMouseEvent):
         if QMouseEvent.button()==Qt.LeftButton:
             self.clicked.emit()
+
 
 class MyLabel(QLabel):
     clicked = pyqtSignal()
@@ -91,7 +92,6 @@ class ParametersManager():
         
         self.__parameters_conf['table_values'][str(indx+1)] = self.__default_parameters['table_values']["1"]
 
-
     def del_table_row(self, indx):
         if str(indx) not in self.__parameters_conf['table_values']:
             raise Exception('Row with indx {} not exists in the table'.format(indx))
@@ -100,7 +100,6 @@ class ParametersManager():
             self.__parameters_conf['table_values'][str(i)] = self.__parameters_conf['table_values'][str(i+1)]
         
         del self.__parameters_conf['table_values'][str(len(self.__parameters_conf["table_values"]))]
-
 
     def get_single(self):
         return self.__parameters_conf.get('single_values', self.__default_parameters.get('single_values'))
