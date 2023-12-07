@@ -55,9 +55,9 @@ class MainWindow(QWidget):
         self.initData()
 
         self.serial_port = serial.Serial('COM1', 9600, timeout=1)
-        self.control_panel.setEnabled(False)
-        self.start_btn.setEnabled(False)
-        self.start_wait_signal()
+        # self.control_panel.setEnabled(False)
+        # self.start_btn.setEnabled(False)
+        # self.start_wait_signal()
 
     def initUI(self):
         self.control_panel = ControlPanel(self)
@@ -94,27 +94,30 @@ class MainWindow(QWidget):
 
     def initData(self):
         self.wait_flag = False
-        timer = QTimer(self)
-        timer.timeout.connect(self.check_uart)
-        timer.start(1000)
+        # timer = QTimer(self)
+        # timer.timeout.connect(self.check_uart)
+        # timer.start(1000)
 
     def start_generate(self):
-        self.start_btn.clicked.disconnect()
-        self.control_panel.setEnabled(False)
-        self.start_btn.setEnabled(False)
+        # self.start_btn.clicked.disconnect()
+        # self.control_panel.setEnabled(False)
+        # self.start_btn.setEnabled(False)
 
         data = [0, 10, 20, 30, 40, 50, 60, 70]
         data_arr = bytearray(data)
         self.serial_port.write(data_arr)
 
-        line = self.serial_port.readline()
-        if line:
-            self.start_wait_signal()
-        else:
-            QMessageBox.critical(self, 'Функциональный генератор сигналов', 'МК не отвечает. Попробуйте снова.')
-            self.control_panel.setEnabled(True)
-            self.start_btn.setEnabled(True)
-            self.start_btn.clicked.connect(self.start_generate)
+        # line = self.serial_port.readline()
+        # if line:
+        #     # self.start_wait_signal()
+        #     self.control_panel.setEnabled(True)
+        #     self.start_btn.setEnabled(True)
+        #     self.start_btn.clicked.connect(self.start_generate)
+        # else:
+        #     QMessageBox.critical(self, 'Функциональный генератор сигналов', 'МК не отвечает. Попробуйте снова.')
+        #     self.control_panel.setEnabled(True)
+        #     self.start_btn.setEnabled(True)
+        #     self.start_btn.clicked.connect(self.start_generate)
 
     def stop_generate(self):
         self.stop_timer()
