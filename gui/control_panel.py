@@ -46,6 +46,7 @@ class ControlPanel():
 
     def initData(self):
         self.manager = utils.ParametersManager()
+        self.current_form = 1
         self.initSingleData()
 
     def initSingleData(self):
@@ -184,13 +185,13 @@ class ControlPanel():
         rbtn2 = QRadioButton("Пилообразный")
         rbtn3 = QRadioButton("Прямоугольный")
         rbtn4 = QRadioButton("Шумоподобный")
-        rbtn5 = QRadioButton("Произвольный")
+        # rbtn5 = QRadioButton("Произвольный")
 
         rbtn1.toggled.connect(self.change_waveform)
         rbtn2.toggled.connect(self.change_waveform)
         rbtn3.toggled.connect(self.change_waveform)
         rbtn4.toggled.connect(self.change_waveform)
-        rbtn5.toggled.connect(self.change_waveform)
+        # rbtn5.toggled.connect(self.change_waveform)
 
         rbtn2.setChecked(True)
 
@@ -201,7 +202,7 @@ class ControlPanel():
         v_layout.addWidget(rbtn2)
         v_layout.addWidget(rbtn3)
         v_layout.addWidget(rbtn4)
-        v_layout.addWidget(rbtn5)
+        # v_layout.addWidget(rbtn5)
         v_layout.addStretch()
 
         waveform_layout = QHBoxLayout()
@@ -312,6 +313,16 @@ class ControlPanel():
                 self.deleteLayout(self.values_frame.layout())
                 self.values_frame.setLayout(self.get_single_values_layout())
                 self.initSingleData()
+            
+            for key, val in config.forms.items():
+                if val == rbtn.text():
+                    self.current_form = key
+                    break
+            else:
+                self.current_form = 5
+            
+            self.widget.graph_canvas.doPlot(self.current_form)
+
 
     def change_values(self):
         if self.values_frame.layout() == self.table_values_layout:
@@ -322,6 +333,8 @@ class ControlPanel():
         editor = parameters_editor.Editor(self, editot_title)
 
         editor.run()
+
+        self.widget.graph_canvas.doPlot(self.current_form)
 
     def deleteLayout(self, layout):
         if layout is not None:

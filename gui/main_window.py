@@ -7,7 +7,7 @@ import serial
 
 from gui.control_panel import ControlPanel
 from gui.graph_canvas import GraphCanvas
-import config
+import config, utils
 
 
 class MainWindow(QWidget):
@@ -93,6 +93,7 @@ class MainWindow(QWidget):
         self.setLayout(main_layout)
 
     def initData(self):
+        self.manager = utils.ParametersManager()
         self.wait_flag = False
         # timer = QTimer(self)
         # timer.timeout.connect(self.check_uart)
@@ -103,7 +104,12 @@ class MainWindow(QWidget):
         # self.control_panel.setEnabled(False)
         # self.start_btn.setEnabled(False)
 
-        data = [0, 10, 20, 30, 40, 50, 60, 70]
+        frequency = self.manager.get_single()["frequency"]
+        
+        data = self.graph_canvas.getPlotData() + [frequency]
+        print(data, len(data))
+
+        # data = [0, 10, 20, 30, 40, 50, 60, 70]
         data_arr = bytearray(data)
         self.serial_port.write(data_arr)
 
