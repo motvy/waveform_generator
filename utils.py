@@ -81,6 +81,9 @@ class ParametersManager():
 
     def set_table_row(self, indx, amplitude, frequency, form):
         self.__parameters_conf['table_values'][str(indx)] = {"amplitude": amplitude, "frequency": frequency, "form": form}
+        for key, val in self.__parameters_conf['table_values'].items():
+            self.__parameters_conf['table_values'][key][ "frequency"] = frequency
+
     
     def add_table_row(self, indx):
         if indx > len(self.__parameters_conf["table_values"]):

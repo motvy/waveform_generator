@@ -62,6 +62,8 @@ class ControlPanel():
             lb = "Гц"
         self.frequency_input.setText(f"{frequency} {lb}")
 
+        self.widget.graph_canvas.doPlot(self.current_form)
+
     def initTableData(self):
         table_values = self.manager.get_table()
 
@@ -123,6 +125,8 @@ class ControlPanel():
                 datete_btn.setStyleSheet('background: rgb(240, 240, 240); border: 0px;')
                 datete_btn.clicked.connect(self.del_row_value)
                 self.table_valaues.setCellWidget(int(indx) - 1, 3 if len(table_values) >= config.max_free_form_graphs else 4, datete_btn)
+        
+        self.widget.graph_canvas.doPlot(self.current_form)
 
     
     def add_row_value(self):
@@ -185,15 +189,15 @@ class ControlPanel():
         rbtn2 = QRadioButton("Пилообразный")
         rbtn3 = QRadioButton("Прямоугольный")
         rbtn4 = QRadioButton("Шумоподобный")
-        # rbtn5 = QRadioButton("Произвольный")
+        rbtn5 = QRadioButton("Произвольный")
 
         rbtn1.toggled.connect(self.change_waveform)
         rbtn2.toggled.connect(self.change_waveform)
         rbtn3.toggled.connect(self.change_waveform)
         rbtn4.toggled.connect(self.change_waveform)
-        # rbtn5.toggled.connect(self.change_waveform)
+        rbtn5.toggled.connect(self.change_waveform)
 
-        rbtn2.setChecked(True)
+        rbtn1.setChecked(True)
 
         v_layout = QVBoxLayout()
         v_layout.addStretch()
@@ -202,7 +206,7 @@ class ControlPanel():
         v_layout.addWidget(rbtn2)
         v_layout.addWidget(rbtn3)
         v_layout.addWidget(rbtn4)
-        # v_layout.addWidget(rbtn5)
+        v_layout.addWidget(rbtn5)
         v_layout.addStretch()
 
         waveform_layout = QHBoxLayout()

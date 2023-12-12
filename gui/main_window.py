@@ -60,8 +60,8 @@ class MainWindow(QWidget):
         # self.start_wait_signal()
 
     def initUI(self):
-        self.control_panel = ControlPanel(self)
         self.graph_canvas = GraphCanvas(self)
+        self.control_panel = ControlPanel(self)
 
         self.start_btn = QPushButton()
         self.start_btn.setFixedSize(int(self.width*0.04), int(self.width*0.04))
@@ -104,7 +104,7 @@ class MainWindow(QWidget):
         # self.control_panel.setEnabled(False)
         # self.start_btn.setEnabled(False)
 
-        frequency = self.manager.get_single()["frequency"]
+        frequency = self.graph_canvas.current_frequency
         
         data = self.graph_canvas.getPlotData() + [frequency]
         print(data, len(data))
